@@ -33,6 +33,8 @@ class CvnDb {
 
 	protected function query( $sql, $values ) {
 		try {
+			$this->open();
+
 			$sth = $this->conn->prepare( $sql );
 			if ( !$sth ) {
 				$this->warnings[] = 'PDO::prepare failed.';
@@ -84,8 +86,6 @@ class CvnDb {
 
 		static $userTypeFilter = array( 'whitelist', 'blacklist', 'greylist' );
 
-		$this->open();
-
 		$users = array_values( array_unique( $users ) );
 
 		$marks = implode( ',', array_fill( 0, count( $users ), '?' ) );
@@ -131,8 +131,6 @@ class CvnDb {
 
 	/** @return Array */
 	public function queryPages( $pages ) {
-		$this->open();
-
 		$pages = array_values( array_unique( $pages ) );
 
 		$marks = implode( ',', array_fill( 0, count( $pages ), '?' ) );
@@ -201,11 +199,11 @@ class CvnApi {
 	public function __construct( $db, $params ) {
 		$this->db = $db;
 
-		if ( isset( $params['users'] ) ) {
+		if ( isset( $params['users'] ) && strlen( $params['users'] ) ) {
 			$this->users = explode( '|', $params['users'] );
 		}
 
-		if ( isset( $params['pages'] ) ) {
+		if ( isset( $params['pages'] ) && strlen( $params['pages'] ) ) {
 			$this->pages = explode( '|', $params['pages'] );
 		}
 
@@ -269,9 +267,7 @@ class CvnApi {
 		}
 
 		// Validate query
-		if ( ( $this->users === null || !count( $this->users ) ) &&
-			( $this->pages === null || !count( $this->pages ) )
-		) {
+		if ( $this->users === null && $this->pages === null ) {
 			$this->error( 'missing-query' );
 			return;
 		}
@@ -290,11 +286,44 @@ class CvnApi {
  * Set up environment
  */
 
-// No errror reporting (0), else (-1) for debugging
-error_reporting( -1 );
-
 // Reset timezone
 date_default_timezone_set( 'UTC' );
+
+/**
+ * Fallbacks for PHP 5.3
+ */
+
+if (!function_exists('http_response_code')) {
+	function http_response_code($code = null) {
+
+		if ($code !== null) {
+			switch ($code) {
+				case 200: $text = 'OK'; break;
+				case 400: $text = 'Bad Request'; break;
+				case 401: $text = 'Unauthorized'; break;
+				case 402: $text = 'Payment Required'; break;
+				case 403: $text = 'Forbidden'; break;
+				case 404: $text = 'Not Found'; break;
+				case 500: $text = 'Internal Server Error'; break;
+				default:
+					$code = 500;
+					$text = 'Unknown-Http-Status-Code';
+				break;
+			}
+
+			$protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+
+			header($protocol . ' ' . $code . ' ' . $text);
+
+			$GLOBALS['http_response_code'] = $code;
+
+		} else {
+			$code = (isset($GLOBALS['http_response_code']) ? $GLOBALS['http_response_code'] : 200);
+		}
+
+		return $code;
+	}
+}
 
 /**
  * Configuration
@@ -315,4 +344,3 @@ $db = new CvnDb( array(
 $api = new CvnApi( $db, $_GET );
 
 $api->execute();
-

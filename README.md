@@ -128,7 +128,7 @@ Example using [`file_get_contents`](http://php.net/file_get_contents):
 * Copy the database of a [CVNBot](https://github.com/countervandalism/CVNBot)
   to the `data` directory.
 * Expose `public_html` directory in the document root of a web server
-  that supports PHP 5.4 or higher (e.g. Apache or NGINX).
+  that supports PHP 5.3.10 or higher (e.g. Apache or NGINX).
 * Done!
 
 
