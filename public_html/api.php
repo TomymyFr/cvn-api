@@ -289,6 +289,9 @@ class CvnApi {
 // Reset timezone
 date_default_timezone_set( 'UTC' );
 
+// Clean start (no default handling like cookies and "x-powered-by")
+header_remove();
+
 /**
  * Fallbacks for PHP 5.3
  */
