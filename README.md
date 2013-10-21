@@ -39,6 +39,7 @@ The following properties are returned in a successful request. Note that respons
 ### Possible errors:
 * `missing-query`: At least one of `users` or `pages` must be specified and non-empty.
 * `invalid-callback`: The callback specified is empty or contains one or more illegal characters.
+* `internal`: An internal error occured (e.g. connection problems or missing configuration files).
 
 ## Usage
 
