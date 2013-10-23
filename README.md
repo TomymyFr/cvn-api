@@ -26,7 +26,7 @@ In case of an error, an HTTP 400 status is returned and the response body will o
 The following properties are returned in a successful request. Note that response only includes users and pages found in the database, there is no empty placeholder for names specified in the request that weren't listed anywhere.
 
 * `users`: An object keyed by user name containing:
- * `type`: The type of list this user is on.<br/>Value: One of "blacklist", "whitelist" or "greylist
+ * `type`: The type of list this user is on.<br/>Value: One of "blacklist", "whitelist" or "greylist"
  * `comment`: Comment left by the adder.<br/>Value: A string or false if no reason was given.
  * `expiry`: The timestamp of when this list item expires.<br/>Value: The number of seconds since the Unix Epoch (January 1 1970 00:00:00 GMT) or `false` for indefinitely.
  * `adder`: The user who added this list item.
