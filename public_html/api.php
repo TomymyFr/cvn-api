@@ -55,6 +55,7 @@ class CvnDb {
 			return $rows;
 
 		} catch ( PDOException $e ) {
+			error_log( $e->__toString() );
 			$this->warnings[] = 'PDOException code ' . $e->getCode();
 			return array();
 		}
