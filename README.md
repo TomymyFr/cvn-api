@@ -53,7 +53,7 @@ Example using [`jQuery.ajax`](http://api.jquery.com/jQuery.ajax/):
 	var pages = ['Main Page', 'Template:Delete'];
 
 	jQuery.ajax({
-		url: 'http://cvn.example.org/api.php',
+		url: '//cvn.example.org/api.php',
 		data: {
 			users: users.join('|'),
 			pages: pages.join('|')
