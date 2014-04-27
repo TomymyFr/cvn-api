@@ -58,7 +58,8 @@ Example using [`jQuery.ajax`](http://api.jquery.com/jQuery.ajax/):
 			users: users.join('|'),
 			pages: pages.join('|')
 		},
-		dataType: 'jsonp'
+		dataType: 'jsonp',
+		cache: true
 	}).done(function (data) {
 			console.log(data);
 			/*
