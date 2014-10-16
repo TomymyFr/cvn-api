@@ -136,4 +136,4 @@ Example using [`file_get_contents`](http://php.net/file_get_contents):
 
 ## Copyright and license
 
-See [LICENSE.txt](./MIT-LICENSE.txt).
+See [LICENSE.txt](./LICENSE.txt).
