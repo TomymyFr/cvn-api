@@ -28,6 +28,7 @@ class CvnDb {
 	protected function open() {
 		if ( !$this->conn ) {
 			$this->conn = new PDO( 'sqlite:' . $this->file );
+			$this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 		}
 	}
 
