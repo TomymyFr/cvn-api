@@ -27,15 +27,18 @@ class CvnApi {
 	/**
 	 * @param CvnDb db
 	 * @param Array params
+	 *  - (string) users [optional] List of users separated by pipe.
+	 *  - (string) pages [optional] List of users separated by pipe.
+	 *  - (string) callback [optional] JavaScript identifier for JSON-P callback.
 	 */
 	public function __construct( CvnDb $db, Array $params ) {
 		$this->db = $db;
 
-		if ( isset( $params['users'] ) && strlen( $params['users'] ) ) {
+		if ( isset( $params['users'] ) && $params['users'] !== '' ) {
 			$this->users = explode( '|', $params['users'] );
 		}
 
-		if ( isset( $params['pages'] ) && strlen( $params['pages'] ) ) {
+		if ( isset( $params['pages'] ) && $params['pages'] !== '' ) {
 			$this->pages = explode( '|', $params['pages'] );
 		}
 
@@ -52,7 +55,7 @@ class CvnApi {
 		$data = array();
 
 		// We want our data to serialise as objects in JSON. Non-empty associative arrays
-		// serialise as objects in JSON, but empty arrays do not, so we case it here to keep
+		// serialise as objects in JSON, but empty arrays do not, so we cast it here to keep
 		// this consistent.
 
 		if ( $this->users !== null ) {
@@ -74,12 +77,12 @@ class CvnApi {
 	}
 
 	protected function outputJson( $data ) {
-		header( 'content-type: application/json; charset=utf-8', /* replace = */ true );
+		Response::setHeader( 'Content-Type', 'application/json; charset=utf-8' );
 		echo json_encode( $data );
 	}
 
 	protected function outputJsonP( $data, $callback ) {
-		header( 'content-type: text/javascript; charset=utf-8', /* replace = */ true );
+		Response::setHeader( 'Content-Type', 'text/javascript; charset=utf-8' );
 		echo $callback . '(' . json_encode( $data ) .')';
 	}
 

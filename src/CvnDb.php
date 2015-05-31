@@ -18,7 +18,7 @@ class CvnDb {
 	/**
 	 * @param Array params
 	 */
-	public function __construct( $params ) {
+	public function __construct( Array $params ) {
 		$this->file = $params['file'];
 	}
 

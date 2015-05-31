@@ -61,6 +61,7 @@ $conf = array(
 /**
  * Handle request
  */
+require "$projectDir/src/Response.php";
 require "$projectDir/src/CvnDb.php";
 require "$projectDir/src/CvnApi.php";
 
