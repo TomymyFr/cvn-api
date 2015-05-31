@@ -109,6 +109,24 @@ class CvnApi {
 
 		$data = $this->getResponseData();
 
+		// Allow CORS
+		// Avoid having to use JSON-P, which has a cache-busting callback.
+		Response::setHeader( 'Access-Control-Allow-Origin', '*' );
+
+		if ( isset( $data['warnings'] ) ) {
+			// Do not cache responses with warnings
+			Response::setHeader( 'Cache-Control', 'no-cache' );
+		} elseif ( $data['lastUpdate'] ) {
+			$maxAge = 5 * 60; // 5 minutes
+			Response::setHeader( 'Last-Modified', gmdate( 'D, d M Y H:i:s', $data['lastUpdate'] ) . ' GMT' );
+			Response::setHeader( 'Cache-Control', 'public, max-age=' . intval( $maxAge ) );
+			Response::setHeader( 'Expires', gmdate( 'D, d M Y H:i:s', time() + $maxAge ) . ' GMT' );
+
+			if ( Request::tryLastModified( $data['lastUpdate'] ) ) {
+				exit;
+			}
+		}
+
 		if ( $this->isJsonP ) {
 			$this->outputJsonP( $data, $this->callback );
 		} else {

@@ -23,6 +23,7 @@ if (!function_exists('http_response_code')) {
 		if ($code !== null) {
 			switch ($code) {
 				case 200: $text = 'OK'; break;
+				case 304: $text = 'Not Modified'; break;
 				case 400: $text = 'Bad Request'; break;
 				case 401: $text = 'Unauthorized'; break;
 				case 402: $text = 'Payment Required'; break;
@@ -35,9 +36,7 @@ if (!function_exists('http_response_code')) {
 				break;
 			}
 
-			$protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
-
-			header($protocol . ' ' . $code . ' ' . $text);
+			header("HTTP/1.x $code $text");
 
 			$GLOBALS['http_response_code'] = $code;
 
@@ -61,6 +60,7 @@ $conf = array(
 /**
  * Handle request
  */
+require "$projectDir/src/Request.php";
 require "$projectDir/src/Response.php";
 require "$projectDir/src/CvnDb.php";
 require "$projectDir/src/CvnApi.php";
