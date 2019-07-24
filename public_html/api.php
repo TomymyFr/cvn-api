@@ -69,6 +69,6 @@ $db = new CvnDb( array(
 	'file' => $conf['dbFile'],
 ) );
 
-$api = new CvnApi( $db, $_GET );
+$api = new CvnApi( $db, $_GET + $_POST );
 
 $api->execute();
