@@ -53,14 +53,14 @@ Example using [`jQuery.ajax`](http://api.jquery.com/jQuery.ajax/):
 	var pages = ['Main Page', 'Template:Delete'];
 
 	jQuery.ajax({
-		url: '//cvn.example.org/api.php',
+		url: 'https://cvn.example.org/api.php',
 		data: {
 			users: users.join('|'),
 			pages: pages.join('|')
 		},
 		dataType: 'jsonp',
 		cache: true
-	}).done(function (data) {
+	}).then(function (data) {
 			console.log(data);
 			/*
 			{
@@ -95,7 +95,7 @@ Example using [`file_get_contents`](http://php.net/file_get_contents):
 	$pages = array('Main Page', 'Template:Delete');
 
 	$result = file_get_contents(
-		'http://cvn.example.org/api.php?' . http_build_query( array(
+		'https://cvn.example.org/api.php?' . http_build_query( array(
 			'users' => implode( '|', $users ),
 			'pages' => implode( '|', $pages ),
 	));
