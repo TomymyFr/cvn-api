@@ -2,8 +2,8 @@
 /**
  * Web API for the database of the Countervandalism Network.
  *
- * @author Timo Tijhof, 2010–2015
- * @license http://krinkle.mit-license.org/
+ * @author Timo Tijhof
+ * @license https://krinkle.mit-license.org/2010-2019/
  * @package https://github.com/countervandalism/cvn-api
  */
 
